@@ -32,7 +32,7 @@ namespace MazeRunners
         }
         public override void Display()
         {
-            AnsiConsole.Markup("[green] [/]");
+            AnsiConsole.Markup("[gray] [/]");
         }
     }
 

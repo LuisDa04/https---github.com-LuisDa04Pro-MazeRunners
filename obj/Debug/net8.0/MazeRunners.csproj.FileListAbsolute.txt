@@ -15,3 +15,4 @@ D:\Luisi\obj\Debug\net8.0\MazeRunners.pdb
 D:\Luisi\obj\Debug\net8.0\MazeRunners.genruntimeconfig.cache
 D:\Luisi\obj\Debug\net8.0\ref\MazeRunners.dll
 D:\Luisi\obj\Debug\net8.0\MazeRunners.csproj.CopyComplete
+D:\Luisi\obj\Debug\net8.0\MazeRunners.sourcelink.json

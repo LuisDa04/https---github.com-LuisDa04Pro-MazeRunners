@@ -10,8 +10,10 @@ namespace MazeRunners
     {
         public static void Main(string[] args)
         {
-            var mazeGenerator = new MazeGenerator(50,50);
+            var mazeGenerator = new MazeGenerator(50, 50);
+
             mazeGenerator.GenerateMaze();
+            System.Console.WriteLine("Se genero el laberinto");
             mazeGenerator.PrintMaze();
             Console.ReadLine();
         }
@@ -28,7 +30,8 @@ namespace MazeRunners
         {
             this.ancho = ancho;
             this.altura = altura;
-            maze = new Casilla[ancho,altura];
+            maze = new Casilla[ancho, altura];
+
             winner = (ancho/2,altura/2);
             rand = new Random();
         }
@@ -42,6 +45,7 @@ namespace MazeRunners
                     maze[i,j].Display();
                 }
             }
+            Console.WriteLine("Se imprimio el laberinto");
         }
 
         public Casilla[,] GenerateMaze()
@@ -50,20 +54,26 @@ namespace MazeRunners
             {
                 for (int j = 0; j < altura; j++)
                 {
-                    if ( i == 1 && j == 1)
+                    if ( (i == 1 && j == 1) || (i == ancho - 2 && j == altura -2) || (i == 1 && j == altura - 2) || (i == ancho - 2 && j == 1))
                     {
                         maze[i,j] = new Camino((i,j));
                     }
                     else maze[i,j] = new Muro((i,j));
                 }
             }
+            Console.WriteLine("Laberinto generado con éxito de paredes.");
 
             AbrirCamino(maze, 1, 1, ancho - 2, altura - 2);
+            Console.WriteLine("1 camino");
+
             AbrirCamino(maze, 1, altura - 2, ancho - 2, 1);
+            System.Console.WriteLine("2 camino");
 
             ConectarCasilla(maze, winner);
+            System.Console.WriteLine("victory");
 
             PonerTrampas();
+            System.Console.WriteLine("trampas");
 
             return maze;
         }
@@ -112,15 +122,15 @@ namespace MazeRunners
 
         private void PonerTrampas()
         {
-            int count = (ancho * altura)/10;
+            int count = 10;
 
             for (int i = 0; i < count; i++)
             {
                 int x, y;
                 do
                 {
-                    x = rand.Next(1, ancho - 1);
-                    y = rand.Next(1, altura - 1);
+                    x = rand.Next(1, ancho - 2);
+                    y = rand.Next(1, altura - 2);
                 } 
                 while (!(maze[x,y] is Camino));
 

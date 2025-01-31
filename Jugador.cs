@@ -33,6 +33,7 @@ namespace MazeRunners
             (int newX,int newY) = (Posicion.x + dir.x, Posicion.y + dir.y);
             if (maze[newX,newY] is Muro)
             {
+                Speed += 1;
                 return;
             }
                 
@@ -60,11 +61,6 @@ namespace MazeRunners
 
             maze[nx,ny].DisplayPlayer(); 
         }
-
-        // public void Display(bool currentPlayer)
-        // {
-        //     AnsiConsole.Markup(currentPlayer ? "[blue] 🧍 [/]" : "[cyan] 💤 [/]");
-        // }
 
         private bool IsBlock(int x,int y, Casilla[,] maze) => x >= 0 && y >= 0 && x < maze.GetLength(0) && y < maze.GetLength(1);
     }

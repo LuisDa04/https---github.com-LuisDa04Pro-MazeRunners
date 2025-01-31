@@ -24,7 +24,7 @@ namespace MazeRunners
         }
         public override void DisplayPlayer()
         {
-            AnsiConsole.Markup("🧍");
+            AnsiConsole.Markup("🏃");
         }
     }
 
@@ -41,7 +41,7 @@ namespace MazeRunners
         }
         public override void DisplayPlayer()
         {
-            AnsiConsole.Markup("🧍");
+            AnsiConsole.Markup("🏃");
         }
     }
 
@@ -58,7 +58,7 @@ namespace MazeRunners
         }
         public override void DisplayPlayer()
         {
-            AnsiConsole.Markup("🧍");
+            AnsiConsole.Markup("🏃");
         }
     }
 
@@ -77,7 +77,7 @@ namespace MazeRunners
         }
         public override void DisplayPlayer()
         {
-            AnsiConsole.Markup("🧍");
+            AnsiConsole.Markup("🏃");
         }
     }
 

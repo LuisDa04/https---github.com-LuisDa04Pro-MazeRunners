@@ -17,6 +17,8 @@ namespace MazeRunners
 
     public class GameManager
     {
+        public int ancho = 31;
+        public int altura = 31;
         public List<Jugador> jugadores = new List<Jugador>();
         public List<Jugador> tokens = new List<Jugador>();
         public int current;
@@ -27,8 +29,6 @@ namespace MazeRunners
 
         public void StartGame()
         {
-            int ancho = 31;
-            int altura = 31;
 
             build = new MazeGenerator(ancho, altura);
             maze = build.GenerateMaze();
@@ -36,6 +36,7 @@ namespace MazeRunners
             winner = (ancho/2,altura/2);
             
             (int,int)[] array = {(1,1), (ancho - 2, altura - 2)};
+
 
             tokens = new List<Jugador>
             {
@@ -47,63 +48,79 @@ namespace MazeRunners
             };
             current = 0;
 
+            Console.WriteLine
+            (" Bienvenido al MazeRunners \n Este es un prototipo de juego de laberinto en consola \n Las instrucciones se encuentran en el README \n Disfruta del juego");
+            Console.WriteLine(" Toque cualquier tecla para comenzar");
+
+            Console.ReadLine();
+            Console.WriteLine("Elige a los jugadores\n");
+
             while(true)
             {
-                Console.WriteLine
-                (" Bienvenido al MazeRunners \n Este es un prototipo de juego de laberinto en consola \n Las instrucciones se encuentran en el README \n Disfruta del juego");
-                Console.WriteLine(" Toque cualquier tecla para comenzaer");
-
-                Console.ReadLine();
-                Console.WriteLine("Elige a los jugadores\n");
-                while (jugadores.Count < 2)
+                ElegirJugadores();
+                while(true)
                 {
-                    for (int i = 0; i < tokens.Count; i++)
+                    DisplayMaze();
+
+                    Console.ReadLine();
+
+                    HandleInput(jugadores[current].Speed);
+                    if (CheckWin())
                     {
-                        Console.WriteLine($"{i + 1}: {tokens[i].Name}\n");
+                        AnsiConsole.Markup($"[green] Felicidades! El jugador {current + 1} llego al final del laberinto.[/]");
+                        break;
                     }
+                    Console.WriteLine("Si terminaste el turno pulsa Enter");
+                    Console.ReadLine();
+                    SwitchTurn();
+                }
+            }
+        }
+
+        public void ElegirJugadores()
+        {
+            while (jugadores.Count < 2)
+            {
+                for (int i = 0; i < tokens.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}: {tokens[i].Name}\n");
+                }
                        
-                    int key = int.Parse(Console.ReadLine());
-                    switch(key)
-                    {
-                        case 1:
-                            jugadores.Add(tokens[0]);
-                            break;
-                        case 2:
-                            jugadores.Add(tokens[1]);
-                            break;
-                        case 3:
-                            jugadores.Add(tokens[2]);
-                            break;
-                        case 4:
-                            jugadores.Add(tokens[3]);
-                            break;
-                        case 5:
-                            jugadores.Add(tokens[4]);
-                            break;
-                    }
-                    tokens.RemoveAt(key - 1);
-                }
-                tokens.Clear();
-                jugadores[0].Posicion = (1,1);
-                jugadores[1].Posicion = (ancho -2, altura - 2);
-
-                Console.Clear();
-                DisplayMaze();
-
-                Console.ReadLine();
-
-                HandleInput(jugadores[current].Speed);
-                if (CheckWin())
+                int key = int.Parse(Console.ReadLine());
+                switch(key)
                 {
-                    AnsiConsole.Markup($"[green] Felicidades! El jugador {current + 1} llego al final del laberinto.[/]");
-                    break;
+                    case 1:
+                        jugadores.Add(tokens[0]);
+                        break;
+                    case 2:
+                        jugadores.Add(tokens[1]);
+                        break;
+                    case 3:
+                        jugadores.Add(tokens[2]);
+                        break;
+                    case 4:
+                        jugadores.Add(tokens[3]);
+                        break;
+                    case 5:
+                        jugadores.Add(tokens[4]);
+                        break;
                 }
-                Console.ReadLine();
-                SwitchTurn();
+                tokens.RemoveAt(key - 1);
+
+                if (jugadores.Count == 2)
+                {
+                    List<(int,int)> Dir = new List<(int,int)> {(1,1), (ancho - 2,1), (1,altura - 2), (ancho - 2, altura -2)};
+                    int Pos = rand.Next(Dir.Count);
+
+                    jugadores[0].Posicion = Dir[Pos];
+                    Dir.RemoveAt(Pos);
+                    jugadores[1].Posicion = Dir[Pos];
+                }
             }
         }
 
         
+
         private Habilidad AsignarHabilidad()
         {
             var habilidades = new List<Habilidad>
@@ -120,14 +137,20 @@ namespace MazeRunners
 
         public void DisplayMaze()
         {
-
+            Console.Clear();
             for (int i = 0; i < maze.GetLength(0); i++)
             {
                 for (int j = 0; j < maze.GetLength(1); j++)
                 {
                     maze[i,j].Display();
-                    jugadores[0].Display(maze, jugadores[0].Posicion);
-                    jugadores[1].Display(maze, jugadores[1].Posicion);
+                    if ((i,j) == jugadores[0].Posicion)
+                    {
+                        jugadores[0].Display(maze, jugadores[0].Posicion);
+                    }
+                    if ((i,j) == jugadores[1].Posicion)
+                    {
+                        jugadores[1].Display(maze, jugadores[1].Posicion);
+                    }
                 }
                 Console.WriteLine();
             }
@@ -144,23 +167,28 @@ namespace MazeRunners
                 switch (key)
                 {
                     case ConsoleKey.W:
-                        jugadores[current].Mover((0,-1), maze);
+                        jugadores[current].Mover((-1,0), maze);
+                        DisplayMaze();
                         break;
                     case ConsoleKey.S:
-                        jugadores[current].Mover((0,1), maze);
+                        jugadores[current].Mover((1,0), maze);
+                        DisplayMaze();
                         break;
                     case ConsoleKey.A:
-                        jugadores[current].Mover((-1,0), maze);
+                        jugadores[current].Mover((0,-1), maze);
+                        DisplayMaze();
                         break;
                     case ConsoleKey.D:
-                        jugadores[current].Mover((1,0), maze);
+                        jugadores[current].Mover((0,1), maze);
+                        DisplayMaze();
                         break;
                     case ConsoleKey.P:
                         jugadores[current].Habilidad.UseSkill(jugadores[current], jugadores, maze);
+                        DisplayMaze();
                         break;
                 }
                 count++;
-                
+
             }
         }
 

@@ -20,15 +20,15 @@ namespace MazeRunners
         public List<Jugador> jugadores = new List<Jugador>();
         public List<Jugador> tokens = new List<Jugador>();
         public int current;
-        public Casilla[,] maze = new Casilla[51,51];
-        public MazeGenerator build = new MazeGenerator(51,51);
+        public Casilla[,] maze = new Casilla[31,31];
+        public MazeGenerator build = new MazeGenerator(31,31);
         public (int x,int y) winner;
         public Random rand = new Random();
 
         public void StartGame()
         {
-            int ancho = 51;
-            int altura = 51;
+            int ancho = 31;
+            int altura = 31;
 
             build = new MazeGenerator(ancho, altura);
             maze = build.GenerateMaze();
@@ -54,14 +54,14 @@ namespace MazeRunners
                 Console.WriteLine(" Toque cualquier tecla para comenzaer");
 
                 Console.ReadLine();
-                Console.WriteLine("Elige a los jugadores");
+                Console.WriteLine("Elige a los jugadores\n");
                 while (jugadores.Count < 2)
                 {
                     for (int i = 0; i < tokens.Count; i++)
                     {
                         Console.WriteLine($"{i + 1}: {tokens[i].Name}\n");
                     }
-                        
+                       
                     int key = int.Parse(Console.ReadLine());
                     switch(key)
                     {
@@ -126,10 +126,8 @@ namespace MazeRunners
                 for (int j = 0; j < maze.GetLength(1); j++)
                 {
                     maze[i,j].Display();
-                    for (int k = 0; k < jugadores.Count; k++)
-                    {
-                        jugadores[k].Display(maze, jugadores[k].Posicion);
-                    }
+                    jugadores[0].Display(maze, jugadores[0].Posicion);
+                    jugadores[1].Display(maze, jugadores[1].Posicion);
                 }
                 Console.WriteLine();
             }
@@ -141,6 +139,7 @@ namespace MazeRunners
             while (count < velocidad)
             {
                 var key = Console.ReadKey(true).Key;
+                
 
                 switch (key)
                 {
@@ -163,10 +162,6 @@ namespace MazeRunners
                 count++;
                 
             }
-        }
-        private bool Turn()
-        {
-            return current == 0 ? jugadores[0].IsPlaying = true : jugadores[1].IsPlaying = true;
         }
 
         private void SwitchTurn()

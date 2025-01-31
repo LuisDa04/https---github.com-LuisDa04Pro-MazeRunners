@@ -53,8 +53,18 @@ namespace MazeRunners
 
             NuevoCamino(1,1);
             
-            ConectarCasilla(maze, (ancho -2, altura - 2));
-            ConectarCasilla(maze, (1,altura - 2));
+            if (maze[1,altura - 3] is Muro)
+            {
+                maze[1,altura - 3] = new Camino((1,ancho - 3));
+            }
+            if (maze[ancho - 3,1] is Muro)
+            {
+                maze[ancho - 3,1] = new Camino((ancho - 3,1));
+            }
+            if (maze[ancho - 3,altura - 2] is Muro)
+            {
+                maze[ancho - 3,altura - 2] = new Camino((ancho - 3,altura - 2)) ;
+            }
             ConectarCasilla(maze, winner);
             
             PonerTrampas();

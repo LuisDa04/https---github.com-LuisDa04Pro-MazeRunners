@@ -31,6 +31,10 @@ namespace MazeRunners
             }
 
             (int newX,int newY) = (Posicion.x + dir.x, Posicion.y + dir.y);
+            if (maze[newX,newY] is Muro)
+            {
+                return;
+            }
                 
             while (IsBlock(newX, newY, maze) && maze[newX,newY] is Camino)
             {
@@ -49,9 +53,12 @@ namespace MazeRunners
             }
         }
 
-        public void Display(Casilla[,] maze, (int,int) Posicion)
+        public void Display(Casilla[,] maze, (int x,int y) Posicion)
         {
-            AnsiConsole.Markup("🧍 ");
+            int nx = Posicion.x;
+            int ny = Posicion.y;
+
+            maze[nx,ny].DisplayPlayer(); 
         }
 
         // public void Display(bool currentPlayer)

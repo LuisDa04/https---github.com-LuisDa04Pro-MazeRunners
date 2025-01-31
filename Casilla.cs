@@ -8,6 +8,7 @@ namespace MazeRunners
         public string? Tipo {get; set;}
 
         public abstract void Display();
+        public abstract void DisplayPlayer();
     }
 
     public class Muro : Casilla
@@ -20,6 +21,10 @@ namespace MazeRunners
         public override void Display()
         {
             AnsiConsole.Markup("⬜ ");
+        }
+        public override void DisplayPlayer()
+        {
+            AnsiConsole.Markup("🧍");
         }
     }
 
@@ -34,6 +39,10 @@ namespace MazeRunners
         {
             AnsiConsole.Markup("   ");
         }
+        public override void DisplayPlayer()
+        {
+            AnsiConsole.Markup("🧍");
+        }
     }
 
     public class Winner : Camino
@@ -45,7 +54,11 @@ namespace MazeRunners
         }
         public override void Display()
         {
-            AnsiConsole.Markup("⭐");
+            AnsiConsole.Markup("⭐ ");
+        }
+        public override void DisplayPlayer()
+        {
+            AnsiConsole.Markup("🧍");
         }
     }
 
@@ -61,6 +74,10 @@ namespace MazeRunners
         public override void Display()
         {
             AnsiConsole.Markup("💀 ");
+        }
+        public override void DisplayPlayer()
+        {
+            AnsiConsole.Markup("🧍");
         }
     }
 

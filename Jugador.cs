@@ -8,14 +8,16 @@ namespace MazeRunners
         public int Speed {get; set;}
         public string Name {get; set;}
         public string Status {get; set;}
+        public bool IsPlaying {get; set;}
         public Habilidad Habilidad {get; set;}
 
-        public Jugador((int,int) salida, int speed, string name, Habilidad habilidad)
+        public Jugador((int,int) salida, int speed, string name, bool isPlaying, Habilidad habilidad)
         {
             Speed = speed;
             Name = name;
             Posicion = salida;
             Status = "Normal";
+            IsPlaying = isPlaying;
             Habilidad = habilidad;
         }
 
@@ -28,20 +30,14 @@ namespace MazeRunners
                 return;
             }
 
-            for (int i = 0; i < Speed; i++)
-            {
-                (int newX,int newY) = (Posicion.x + dir.x, Posicion.y + dir.y);
+            (int newX,int newY) = (Posicion.x + dir.x, Posicion.y + dir.y);
                 
-                if (IsBlock(newX, newY, maze) && maze[newX,newY] is Camino)
-                {
-                    Posicion = (newX,newY);
-                    HayTrampa(maze);
-                }       
-                else
-                {
-                    break;
-                }     
-            }
+            while (IsBlock(newX, newY, maze) && maze[newX,newY] is Camino)
+            {
+                Posicion = (newX,newY);
+                HayTrampa(maze);
+                break;
+            } 
         }
 
         private void HayTrampa(Casilla[,] maze)
@@ -53,10 +49,15 @@ namespace MazeRunners
             }
         }
 
-        public void Display(bool currentPlayer)
+        public void Display(Casilla[,] maze, (int,int) Posicion)
         {
-            AnsiConsole.Markup(currentPlayer ? "[blue] 🧍 [/]" : "[cyan] 💤 [/]");
+            AnsiConsole.Markup("🧍 ");
         }
+
+        // public void Display(bool currentPlayer)
+        // {
+        //     AnsiConsole.Markup(currentPlayer ? "[blue] 🧍 [/]" : "[cyan] 💤 [/]");
+        // }
 
         private bool IsBlock(int x,int y, Casilla[,] maze) => x >= 0 && y >= 0 && x < maze.GetLength(0) && y < maze.GetLength(1);
     }

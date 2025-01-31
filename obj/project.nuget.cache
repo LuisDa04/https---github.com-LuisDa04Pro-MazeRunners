@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "AO08Ip6FLmfkNwZPJQHBuv9W6yNKHIBqjmHHhtX6/fIzAMgo7qbs3YEVapCMQLp60bYw39UuwzDpiGvbfy51MQ==",
+  "dgSpecHash": "d8xy45HqUs7hKIF882U14AyARkmQpgDF4JHkk4cG8LtYNDwfWc3YXnK1USMRRmkwsDeDbhLr4PfNbKiscmMUlg==",
   "success": true,
-  "projectFilePath": "d:\\Luisi\\MazeRunners.csproj",
+  "projectFilePath": "D:\\Luisi\\MazeRunners.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\OLED\\.nuget\\packages\\spectre.console\\0.49.1\\spectre.console.0.49.1.nupkg.sha512"
   ],

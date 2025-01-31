@@ -1,4 +1,4 @@
-﻿using Spectre.Console;
+﻿﻿﻿﻿using Spectre.Console;
 
 namespace MazeRunners
 {
@@ -19,7 +19,7 @@ namespace MazeRunners
         }
         public override void Display()
         {
-            AnsiConsole.Markup("[red]█[/]");
+            AnsiConsole.Markup("⬜ ");
         }
     }
 
@@ -32,7 +32,20 @@ namespace MazeRunners
         }
         public override void Display()
         {
-            AnsiConsole.Markup("[gray] [/]");
+            AnsiConsole.Markup("   ");
+        }
+    }
+
+    public class Winner : Camino
+    {
+        public Winner((int, int) posicion) : base(posicion)
+        {
+            Posicion = posicion;
+            Tipo = "Winner";
+        }
+        public override void Display()
+        {
+            AnsiConsole.Markup("⭐");
         }
     }
 
@@ -47,7 +60,7 @@ namespace MazeRunners
 
         public override void Display()
         {
-            AnsiConsole.Markup("[gray] [/]");
+            AnsiConsole.Markup("💀 ");
         }
     }
 

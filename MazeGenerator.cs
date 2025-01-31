@@ -3,28 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MazeRunners;
+using Spectre.Console;
 
 namespace MazeRunners
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            var mazeGenerator = new MazeGenerator(50, 50);
+    // public class Program
+    // {
+    //     public static void Main(string[] args)
+    //     {
+    //         var mazeGenerator = new MazeGenerator(60, 60);
 
-            mazeGenerator.GenerateMaze();
-            System.Console.WriteLine("Se genero el laberinto");
-            mazeGenerator.PrintMaze();
-            Console.ReadLine();
-        }
-    }
+    //         mazeGenerator.GenerateMaze();
+    //         mazeGenerator.PrintMaze();
+    //         Console.ReadLine();
+    //     }
+    // }
     public class MazeGenerator
     {
-        private int ancho;
-        private int altura;
-        private Casilla[,] maze;
-        private Random rand = new Random();
-        private (int x,int y) winner;
+        public int ancho;
+        public int altura;
+        public Casilla[,] maze;
+        public Random rand = new Random();
+        public (int x,int y) winner;
 
         public MazeGenerator(int ancho, int altura)
         {
@@ -34,18 +34,6 @@ namespace MazeRunners
 
             winner = (ancho/2,altura/2);
             rand = new Random();
-        }
-
-        public void PrintMaze()
-        {
-            for (int i = 0; i < maze.GetLength(0); i++)
-            {
-                for (int j = 0; j < maze.GetLength(1); j++)
-                {
-                    maze[i,j].Display();
-                }
-            }
-            Console.WriteLine("Se imprimio el laberinto");
         }
 
         public Casilla[,] GenerateMaze()
@@ -61,42 +49,46 @@ namespace MazeRunners
                     else maze[i,j] = new Muro((i,j));
                 }
             }
-            Console.WriteLine("Laberinto generado con éxito de paredes.");
 
-            AbrirCamino(maze, 1, 1, ancho - 2, altura - 2);
-            Console.WriteLine("1 camino");
 
-            AbrirCamino(maze, 1, altura - 2, ancho - 2, 1);
-            System.Console.WriteLine("2 camino");
-
+            NuevoCamino(1,1);
+            
+            ConectarCasilla(maze, (ancho -2, altura - 2));
+            ConectarCasilla(maze, (1,altura - 2));
             ConectarCasilla(maze, winner);
-            System.Console.WriteLine("victory");
-
+            
             PonerTrampas();
-            System.Console.WriteLine("trampas");
 
             return maze;
         }
 
-        private void AbrirCamino(Casilla[,] maze, int i, int j, int o, int p)
+        public void NuevoCamino(int ancho, int altura)
+    {
+        maze[ancho, altura] = new Camino((ancho, altura));
+        var move = new(int, int)[]
         {
-            if (maze[o,p] is Camino) 
-            {
-                maze[i,j] = new Camino((i,j)); 
-                return;
-            }
+            (-2, 0),
+            (2, 0),
+            (0, 2),
+            (0, -2)
+        };
 
-            List<(int,int)> dir = new List<(int,int)> {(1,0),(0,1),(-1,0),(0,-1)};
-            if (IsBlock(i,j) && maze[i,j] is Muro)
+        move = move.OrderBy(x => rand.Next()).ToArray();
+
+        foreach(var (x, y) in move)
+        {
+            int nx = ancho + x;
+            int ny = altura + y;
+
+            if (IsBlock(nx,ny) && maze[nx,ny] is Muro)
             {
-                foreach (var direction in dir)
-                {
-                    AbrirCamino(maze, i + direction.Item1, j + direction.Item2, o, p);
-                }
+                maze[ancho + x / 2, altura + y / 2] = new Camino((ancho + x / 2, altura + y / 2));
+                NuevoCamino(nx, ny); 
             }
         }
+    }
 
-        private void ConectarCasilla(Casilla[,] maze, (int x, int y) winner)
+        public void ConectarCasilla(Casilla[,] maze, (int x, int y) winner)
         {
             if (!(maze[winner.x,winner.y] is Camino))
             {
@@ -118,9 +110,10 @@ namespace MazeRunners
                     break;
                 }
             }
+            maze[winner.x,winner.y] = new Winner(winner);
         }
 
-        private void PonerTrampas()
+        public void PonerTrampas()
         {
             int count = 10;
 
@@ -129,10 +122,10 @@ namespace MazeRunners
                 int x, y;
                 do
                 {
-                    x = rand.Next(1, ancho - 2);
-                    y = rand.Next(1, altura - 2);
+                    x = rand.Next(2, ancho - 3);
+                    y = rand.Next(2, altura - 3);
                 } 
-                while (!(maze[x,y] is Camino));
+                while ((maze[x,y] is Camino));
 
                 int TipoTrampa = rand.Next(3);
                 switch (TipoTrampa)
@@ -150,9 +143,9 @@ namespace MazeRunners
             }
         }
 
-        private bool IsBlock(int x, int y) => x > 0 && x < ancho && y > 0 && y < altura;
+        public bool IsBlock(int x, int y) => x > 0 && x < ancho && y > 0 && y < altura;
 
-        private void Shuffle<T>(IList<T> list)
+        public void Shuffle<T>(IList<T> list)
         {
             int n = list.Count;
             while (n > 1)

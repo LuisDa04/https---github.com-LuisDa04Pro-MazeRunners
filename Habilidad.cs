@@ -9,10 +9,15 @@ namespace MazeRunners
     public abstract class Habilidad
     {
         public abstract void UseSkill(Jugador jugador, List<Jugador> jugadores, Casilla[,] maze);
+        public string? Name { get; set; }
     }
 
     public class EliminarTrampa : Habilidad
     {
+        public EliminarTrampa()
+        {
+            Name = "Eliminar Trampa";
+        }
         public override void UseSkill(Jugador jugador, List<Jugador> jugadores, Casilla[,] maze)
         {
             AnsiConsole.Markup("[blue] Usando habilidad: Eliminar Trampas.[/]\n");
@@ -37,6 +42,10 @@ namespace MazeRunners
     }
         public class AturdirTodos : Habilidad
         {
+            public AturdirTodos()
+            {
+                Name = "Aturdir a todos";
+            }
             public override void UseSkill(Jugador jugador, List<Jugador> jugadores, Casilla[,] maze)
             {
                 AnsiConsole.Markup("[blue] Usando habilidad: Aturdir a todos los jugadores.[/]\n");
@@ -52,6 +61,10 @@ namespace MazeRunners
 
         public class DuplicarVelocidad : Habilidad
         {
+            public DuplicarVelocidad()  
+            {
+                Name = "Duplicar Velocidad";
+            }
             public override void UseSkill(Jugador jugador, List<Jugador> jugadores, Casilla[,] maze)
             {
                 AnsiConsole.Markup("[blue] Usando habilidad: Duplicar velocidad.[/]\n");
@@ -61,6 +74,10 @@ namespace MazeRunners
 
         public class Teleport : Habilidad
         {
+            public Teleport()
+            {
+                Name = "Teleport";
+            }
             public override void UseSkill(Jugador jugador, List<Jugador> jugadores, Casilla[,] maze)
             {
                 int i = 0;

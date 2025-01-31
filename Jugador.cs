@@ -8,16 +8,14 @@ namespace MazeRunners
         public int Speed {get; set;}
         public string Name {get; set;}
         public string Status {get; set;}
-        public bool IsPlaying {get; set;}
         public Habilidad Habilidad {get; set;}
 
-        public Jugador((int,int) salida, int speed, string name, bool isPlaying, Habilidad habilidad)
+        public Jugador((int,int) salida, int speed, string name, Habilidad habilidad)
         {
             Speed = speed;
             Name = name;
             Posicion = salida;
             Status = "Normal";
-            IsPlaying = isPlaying;
             Habilidad = habilidad;
         }
 
@@ -31,13 +29,8 @@ namespace MazeRunners
             }
 
             (int newX,int newY) = (Posicion.x + dir.x, Posicion.y + dir.y);
-            if (maze[newX,newY] is Muro)
-            {
-                Speed += 1;
-                return;
-            }
                 
-            while (IsBlock(newX, newY, maze) && maze[newX,newY] is Camino)
+            while (IsBlock(newX, newY, maze) && !(maze[newX,newY] is Muro))
             {
                 Posicion = (newX,newY);
                 HayTrampa(maze);
@@ -52,14 +45,6 @@ namespace MazeRunners
                 Trampa.Active(this, maze);
                 maze[Posicion.x,Posicion.y] = new Camino(Posicion);
             }
-        }
-
-        public void Display(Casilla[,] maze, (int x,int y) Posicion)
-        {
-            int nx = Posicion.x;
-            int ny = Posicion.y;
-
-            maze[nx,ny].DisplayPlayer(); 
         }
 
         private bool IsBlock(int x,int y, Casilla[,] maze) => x >= 0 && y >= 0 && x < maze.GetLength(0) && y < maze.GetLength(1);

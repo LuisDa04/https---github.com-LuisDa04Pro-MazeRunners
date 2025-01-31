@@ -40,11 +40,11 @@ namespace MazeRunners
 
             tokens = new List<Jugador>
             {
-                new Jugador((0,0), 3, "Man1", false, AsignarHabilidad()),
-                new Jugador((0,0), 3, "Man2", false, AsignarHabilidad()),
-                new Jugador((0,0), 3, "Man3", false, AsignarHabilidad()),
-                new Jugador((0,0), 3, "Man4", false, AsignarHabilidad()),
-                new Jugador((0,0), 3, "Man5", false, AsignarHabilidad())
+                new Jugador((0,0), 3, "Man1", new EliminarTrampa()),
+                new Jugador((0,0), 3, "Man2", new Teleport()),
+                new Jugador((0,0), 3, "Man3", new AturdirTodos()),
+                new Jugador((0,0), 3, "Man4", new DuplicarVelocidad()),
+                new Jugador((0,0), 3, "Man5", new Teleport())
             };
             current = 0;
 
@@ -83,7 +83,7 @@ namespace MazeRunners
             {
                 for (int i = 0; i < tokens.Count; i++)
                 {
-                    Console.WriteLine($"{i + 1}: {tokens[i].Name}\n");
+                    Console.WriteLine($"{i + 1}: {tokens[i].Name} Skill: {tokens[i].Habilidad.Name}\n");
                 }
                        
                 int key = int.Parse(Console.ReadLine());
@@ -106,33 +106,20 @@ namespace MazeRunners
                         break;
                 }
                 tokens.RemoveAt(key - 1);
-
-                if (jugadores.Count == 2)
+                
+                List<(int,int)> Dir = new List<(int,int)> {(1,1), (ancho - 2,1), (1,altura - 2), (ancho - 2, altura -2)};
+                int Pos = rand.Next(Dir.Count);
+                
+                if (jugadores.Count == 1)
                 {
-                    List<(int,int)> Dir = new List<(int,int)> {(1,1), (ancho - 2,1), (1,altura - 2), (ancho - 2, altura -2)};
-                    int Pos = rand.Next(Dir.Count);
-
                     jugadores[0].Posicion = Dir[Pos];
                     Dir.RemoveAt(Pos);
+                }
+                if (jugadores.Count == 2)
+                {
                     jugadores[1].Posicion = Dir[Pos];
                 }
             }
-        }
-
-        
-
-        private Habilidad AsignarHabilidad()
-        {
-            var habilidades = new List<Habilidad>
-            {
-                new EliminarTrampa(),
-                new AturdirTodos(),
-                new DuplicarVelocidad(),
-                new Teleport()
-            };
-            
-            int index = rand.Next(habilidades.Count);
-            return habilidades[index];
         }
 
         public void DisplayMaze()
@@ -142,14 +129,17 @@ namespace MazeRunners
             {
                 for (int j = 0; j < maze.GetLength(1); j++)
                 {
-                    maze[i,j].Display();
                     if ((i,j) == jugadores[0].Posicion)
                     {
-                        jugadores[0].Display(maze, jugadores[0].Posicion);
+                        maze[i,j].DisplayPlayer();
                     }
                     if ((i,j) == jugadores[1].Posicion)
                     {
-                        jugadores[1].Display(maze, jugadores[1].Posicion);
+                        maze[i,j].DisplayPlayer();
+                    }
+                    else
+                    {
+                    maze[i,j].Display();
                     }
                 }
                 Console.WriteLine();
@@ -161,9 +151,9 @@ namespace MazeRunners
             int count = 0;
             while (count < velocidad)
             {
+                var temp = jugadores[current].Posicion;
                 var key = Console.ReadKey(true).Key;
                 
-
                 switch (key)
                 {
                     case ConsoleKey.W:
@@ -187,8 +177,10 @@ namespace MazeRunners
                         DisplayMaze();
                         break;
                 }
+                if (jugadores[current].Posicion != temp)
+                {
                 count++;
-
+                }
             }
         }
 

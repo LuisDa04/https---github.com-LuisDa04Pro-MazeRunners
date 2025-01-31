@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Luisi\\MazeRunners.csproj": {}
+    "d:\\Luisi\\MazeRunners.csproj": {}
   },
   "projects": {
-    "D:\\Luisi\\MazeRunners.csproj": {
+    "d:\\Luisi\\MazeRunners.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Luisi\\MazeRunners.csproj",
+        "projectUniqueName": "d:\\Luisi\\MazeRunners.csproj",
         "projectName": "MazeRunners",
-        "projectPath": "D:\\Luisi\\MazeRunners.csproj",
+        "projectPath": "d:\\Luisi\\MazeRunners.csproj",
         "packagesPath": "C:\\Users\\OLED\\.nuget\\packages\\",
-        "outputPath": "D:\\Luisi\\obj\\",
+        "outputPath": "d:\\Luisi\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\OLED\\AppData\\Roaming\\NuGet\\NuGet.Config"

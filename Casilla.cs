@@ -93,7 +93,7 @@ namespace MazeRunners
         public override void Active(Jugador jugador, Casilla[,] maze)
         {
             jugador.Speed = Math.Max(jugador.Speed - SpeedReduction, 0);
-            AnsiConsole.Markup($"[red] Cuidado! Caiste en una trampa y tu velocidad fue reducida en {SpeedReduction}.[/]");
+            AnsiConsole.Markup($"[red] Cuidado! Caiste en una trampa y tu velocidad fue reducida en {SpeedReduction}.[/]"); 
         }
     }
 
@@ -132,7 +132,6 @@ namespace MazeRunners
             jugador.Speed = 0;
             jugador.Status = "Stunned";
             AnsiConsole.Markup($"[red] Cuidado! Caiste en una trampa y tu jugador fue stuneado por {StunDuration}.[/]");
-
         }
     }
 }

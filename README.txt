@@ -15,6 +15,7 @@ Un juego basico de laberinto en consola con habilidades especiales.
 ### Controles
 - Al ingresar al juego debe elegir los personajes para comenzar su aventura
 
+Controles de ambos jugadores:
 - W: Mover hacia arriba
 - S: Mover hacia abajo  
 - A: Mover hacia la izquierda
@@ -36,5 +37,20 @@ Un juego basico de laberinto en consola con habilidades especiales.
 - Las habilidades estan bien implementadas en una clase abstracta bien organizadas.
 - La clase Jugador alberga unos pocos metodos como el movimiento y la activacion de trampas.
 - La clase Game Manager es la que controla el flujo del juego y genera la interaccion del programa con el usuario, mediante "Console.ReadKey()" y estructuras como "switch".
+
+### Estructuras del juego
+- Casillas: pueden ser Camino, Trampa o Muro.
+--Trampas:
+---TeleportTrap: teletransporta a un jugador a un lugar aleatorio.
+---SlowTrap: reduce la velocidad del jugador.
+---StunTrap: stunea al jugador (finaliza su turno)
+
+-Jugadores
+--Habilidades:
+---Teleport: teletransporta al jugador a un lugar aleatorio.
+---EliminarTrampas: elimina trampas en 3 casillas alrededor.
+---DuplicarVelocidad: exactamente lo que dice su nombre.
+---AturdirTodos: aplica stun a todos los jugadores contrarios.
+
 
 

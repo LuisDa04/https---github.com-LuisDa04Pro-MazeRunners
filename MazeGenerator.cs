@@ -7,17 +7,6 @@ using Spectre.Console;
 
 namespace MazeRunners
 {
-    // public class Program
-    // {
-    //     public static void Main(string[] args)
-    //     {
-    //         var mazeGenerator = new MazeGenerator(60, 60);
-
-    //         mazeGenerator.GenerateMaze();
-    //         mazeGenerator.PrintMaze();
-    //         Console.ReadLine();
-    //     }
-    // }
     public class MazeGenerator
     {
         public int ancho;

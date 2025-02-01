@@ -58,9 +58,14 @@ namespace MazeRunners
             while(true)
             {
                 ElegirJugadores();
+                Console.WriteLine($"{jugadores[0].Posicion}");
+                Console.WriteLine($"{jugadores[1].Posicion}");
+
                 while(true)
                 {
                     DisplayMaze();
+                    Console.WriteLine();
+                    ShowPlayer();
 
                     Console.ReadLine();
 
@@ -108,16 +113,29 @@ namespace MazeRunners
                 tokens.RemoveAt(key - 1);
                 
                 List<(int,int)> Dir = new List<(int,int)> {(1,1), (ancho - 2,1), (1,altura - 2), (ancho - 2, altura -2)};
-                int Pos = rand.Next(Dir.Count);
                 
-                if (jugadores.Count == 1)
+                for (int i = 0; i < jugadores.Count; i++)
                 {
-                    jugadores[0].Posicion = Dir[Pos];
-                    Dir.RemoveAt(Pos);
-                }
-                if (jugadores.Count == 2)
-                {
-                    jugadores[1].Posicion = Dir[Pos];
+                    bool assign = false;
+                    (int,int)? position = null;
+
+                    while (!assign)
+                    {
+                        int Pos = rand.Next(Dir.Count);
+                        position = Dir[Pos];
+
+                        if (position.HasValue)
+                        {
+                            assign = true;
+                        }
+                        else
+                        {
+                            Dir[Pos] = Dir.Last();
+                            Dir.RemoveAt(Dir.Count - 1);
+                        }
+                    }
+
+                    jugadores[i].Posicion = position.Value;
                 }
             }
         }
@@ -133,7 +151,7 @@ namespace MazeRunners
                     {
                         maze[i,j].DisplayPlayer();
                     }
-                    if ((i,j) == jugadores[1].Posicion)
+                    else if ((i,j) == jugadores[1].Posicion)
                     {
                         maze[i,j].DisplayPlayer();
                     }
@@ -143,6 +161,14 @@ namespace MazeRunners
                     }
                 }
                 Console.WriteLine();
+            }
+        }
+
+        public void ShowPlayer()
+        {
+            for (int i = 0; i < jugadores.Count; i++)
+            {
+                Console.WriteLine($"Jugador {i + 1} : {jugadores[i].Name}, Posicion: {jugadores[i].Posicion}, Velocidad: {jugadores[i].Speed}\n");
             }
         }
 
@@ -176,10 +202,12 @@ namespace MazeRunners
                         jugadores[current].Habilidad.UseSkill(jugadores[current], jugadores, maze);
                         DisplayMaze();
                         break;
+                    default:
+                        throw new ArgumentException("Por favor presiona WASD para moverte o P para activar el poder");
                 }
                 if (jugadores[current].Posicion != temp)
                 {
-                count++;
+                    count++;
                 }
             }
         }

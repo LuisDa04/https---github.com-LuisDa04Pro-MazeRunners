@@ -243,6 +243,11 @@ namespace MazeRunners
                     count--;
                 }
                 ShowPlayer();
+                
+                if (CheckWin())
+                {
+                    break;
+                }
 
             }
             jugadores[current].Speed = tempSpeed;

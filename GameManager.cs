@@ -67,8 +67,6 @@ namespace MazeRunners
                     Console.WriteLine();
                     ShowPlayer();
 
-                    Console.ReadLine();
-
                     HandleInput(jugadores[current].Speed);
                     if (CheckWin())
                     {
@@ -109,6 +107,8 @@ namespace MazeRunners
                     case 5:
                         jugadores.Add(tokens[4]);
                         break;
+                    default:
+                        throw new ArgumentException("Por favor presiona los numeros dados para elegir el jugador");
                 }
                 tokens.RemoveAt(key - 1);
                 
@@ -166,14 +166,16 @@ namespace MazeRunners
 
         public void ShowPlayer()
         {
-            for (int i = 0; i < jugadores.Count; i++)
-            {
-                Console.WriteLine($"Jugador {i + 1} : {jugadores[i].Name}, Posicion: {jugadores[i].Posicion}, Velocidad: {jugadores[i].Speed}\n");
-            }
+            Console.WriteLine($"Jugador actual: {jugadores[current].Name}");
+            Console.WriteLine($"Posición actual: {jugadores[current].Posicion}");
+            Console.WriteLine($"Velocidad: {jugadores[current].Speed}");
+            Console.WriteLine();
         }
 
         private void HandleInput(int velocidad)
         {
+            Console.WriteLine("Pulse Enter si desea iniciar su turno");
+            Console.ReadLine();
             int count = 0;
             while (count < velocidad)
             {
@@ -209,6 +211,7 @@ namespace MazeRunners
                 {
                     count++;
                 }
+                ShowPlayer();
             }
         }
 

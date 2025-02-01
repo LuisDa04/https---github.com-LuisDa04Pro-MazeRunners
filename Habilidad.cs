@@ -10,6 +10,11 @@ namespace MazeRunners
     {
         public abstract void UseSkill(Jugador jugador, List<Jugador> jugadores, Casilla[,] maze);
         public string? Name { get; set; }
+        
+        public bool IsBlock(int x, int y, Casilla[,] maze)
+        {
+            return x>=0 && x<maze.GetLength(0) && y>=0 && y<maze.GetLength(1);
+        }
     }
 
     public class EliminarTrampa : Habilidad
@@ -31,15 +36,15 @@ namespace MazeRunners
                     int y = jugador.Posicion.y + dy * i;
                     if (IsBlock(x, y, maze) && maze[x,y] is Trampa)
                     {
-                        AnsiConsole.Markup($"[red] Eliminanado trampa en la posicion ({x}, {y})[/]\n");
+                        AnsiConsole.Markup($"[red] Eliminando trampa en la posicion ({x}, {y})[/]\n");
                         maze[x, y] = new Camino((x,y));
                     }
+                    
                 }
             }
         }
-    
-        private bool IsBlock(int x, int y, Casilla[,] maze) => x>=0 && x<maze.GetLength(0) && y>=0 && y<maze.GetLength(1);
     }
+
         public class AturdirTodos : Habilidad
         {
             public AturdirTodos()
@@ -80,19 +85,29 @@ namespace MazeRunners
             }
             public override void UseSkill(Jugador jugador, List<Jugador> jugadores, Casilla[,] maze)
             {
-                int i = 0;
-                int j = 0;
+                Random rand = new Random();
+                var currentPos = jugadores.Select(j => j.Posicion).ToList();
 
-                while (maze[i,j] is Muro || maze[i,j] is Trampa)
+                int newX, newY;
+                do
                 {
-                    Random rand = new Random(); 
-                    i = rand.Next(1,49);
-                    j = rand.Next(1,49);
+                    newX = rand.Next(1, maze.GetLength(0) - 2);
+                    newY = rand.Next(1, maze.GetLength(1) - 2);
+                }
+                while (!IsBlock(newX, newY, maze));
+
+                if (!currentPos.Contains((newX,newY)))
+                {
+                    jugador.Posicion = (newX,newY);
+                }
+                else
+                {
+                    UseSkill(jugador,jugadores,maze);
                 }
 
-                jugador.Posicion = (i,j);
-                AnsiConsole.Markup($"[blue] Usando habilidad: Transportandose a la casilla {(i,j)}.[/]\n");
+                AnsiConsole.Markup($"[blue] Usando habilidad: Transportandose a la casilla {(newX,newY)}.[/]\n");
                 
             }
         }
+        
 }

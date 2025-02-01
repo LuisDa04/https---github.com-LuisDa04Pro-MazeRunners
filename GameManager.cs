@@ -177,42 +177,75 @@ namespace MazeRunners
             Console.WriteLine("Pulse Enter si desea iniciar su turno");
             Console.ReadLine();
             int count = 0;
+            int pcount = 0;
+            int maxUses = 1;
+            var tempSpeed = jugadores[current].Speed;
+
             while (count < velocidad)
             {
                 var temp = jugadores[current].Posicion;
                 var key = Console.ReadKey(true).Key;
+
+                if (jugadores[current].Status == "Stunned")
+                {
+                    break;
+                }
                 
                 switch (key)
                 {
                     case ConsoleKey.W:
                         jugadores[current].Mover((-1,0), maze);
+                        Console.Clear();
                         DisplayMaze();
                         break;
                     case ConsoleKey.S:
                         jugadores[current].Mover((1,0), maze);
+                        Console.Clear();
                         DisplayMaze();
                         break;
                     case ConsoleKey.A:
                         jugadores[current].Mover((0,-1), maze);
+                        Console.Clear();
                         DisplayMaze();
                         break;
                     case ConsoleKey.D:
                         jugadores[current].Mover((0,1), maze);
+                        Console.Clear();
                         DisplayMaze();
                         break;
                     case ConsoleKey.P:
-                        jugadores[current].Habilidad.UseSkill(jugadores[current], jugadores, maze);
-                        DisplayMaze();
+                        if (pcount < maxUses)
+                        {
+                            jugadores[current].Habilidad.UseSkill(jugadores[current], jugadores, maze);
+                            if (jugadores[current].Speed == 6)
+                            {
+                                velocidad = 6;
+                            }
+                            Console.Clear();
+                            DisplayMaze();
+                            pcount++;
+                        }
+                        else
+                        {
+                            continue;
+                        }
                         break;
                     default:
                         throw new ArgumentException("Por favor presiona WASD para moverte o P para activar el poder");
                 }
+
                 if (jugadores[current].Posicion != temp)
                 {
                     count++;
                 }
+                if (key == ConsoleKey.P && jugadores[current].Posicion != temp)
+                {
+                    count--;
+                }
                 ShowPlayer();
+
             }
+            jugadores[current].Speed = tempSpeed;
         }
 
         private void SwitchTurn()

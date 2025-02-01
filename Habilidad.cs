@@ -39,6 +39,10 @@ namespace MazeRunners
                         AnsiConsole.Markup($"[red] Eliminando trampa en la posicion ({x}, {y})[/]\n");
                         maze[x, y] = new Camino((x,y));
                     }
+                    else
+                    {
+                        AnsiConsole.Markup("[red] No se encontro ninguna trampa[/]");
+                    }
                     
                 }
             }

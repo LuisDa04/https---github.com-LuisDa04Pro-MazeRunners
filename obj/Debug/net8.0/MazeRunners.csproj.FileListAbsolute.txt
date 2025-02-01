@@ -3,16 +3,4 @@ D:\Luisi\obj\Debug\net8.0\MazeRunners.GeneratedMSBuildEditorConfig.editorconfig
 D:\Luisi\obj\Debug\net8.0\MazeRunners.AssemblyInfoInputs.cache
 D:\Luisi\obj\Debug\net8.0\MazeRunners.AssemblyInfo.cs
 D:\Luisi\obj\Debug\net8.0\MazeRunners.csproj.CoreCompileInputs.cache
-D:\Luisi\bin\Debug\net8.0\MazeRunners.exe
-D:\Luisi\bin\Debug\net8.0\MazeRunners.deps.json
-D:\Luisi\bin\Debug\net8.0\MazeRunners.runtimeconfig.json
-D:\Luisi\bin\Debug\net8.0\MazeRunners.dll
-D:\Luisi\bin\Debug\net8.0\MazeRunners.pdb
-D:\Luisi\bin\Debug\net8.0\Spectre.Console.dll
-D:\Luisi\obj\Debug\net8.0\MazeRunners.dll
-D:\Luisi\obj\Debug\net8.0\refint\MazeRunners.dll
-D:\Luisi\obj\Debug\net8.0\MazeRunners.pdb
-D:\Luisi\obj\Debug\net8.0\MazeRunners.genruntimeconfig.cache
-D:\Luisi\obj\Debug\net8.0\ref\MazeRunners.dll
-D:\Luisi\obj\Debug\net8.0\MazeRunners.csproj.CopyComplete
 D:\Luisi\obj\Debug\net8.0\MazeRunners.sourcelink.json

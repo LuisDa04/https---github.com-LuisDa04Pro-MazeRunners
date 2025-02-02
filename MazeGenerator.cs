@@ -31,11 +31,7 @@ namespace MazeRunners
             {
                 for (int j = 0; j < altura; j++)
                 {
-                    if ( (i == 1 && j == 1) || (i == ancho - 2 && j == altura -2) || (i == 1 && j == altura - 2) || (i == ancho - 2 && j == 1))
-                    {
-                        maze[i,j] = new Camino((i,j));
-                    }
-                    else maze[i,j] = new Muro((i,j));
+                    maze[i,j] = new Muro((i,j));
                 }
             }
 

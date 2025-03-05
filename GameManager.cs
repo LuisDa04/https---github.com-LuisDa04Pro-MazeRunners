@@ -44,6 +44,7 @@ namespace MazeRunners
                     methods.HandleInput(jugadores[current].Speed);
                     if (methods.CheckWin())
                     {
+                        Console.Clear();
                         AnsiConsole.Markup($"[green] Felicidades! El jugador {current + 1} llego al final del laberinto.[/]");
                         break;
                     }

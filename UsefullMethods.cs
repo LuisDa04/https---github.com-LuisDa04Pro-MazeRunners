@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Spectre.Console;
 
 namespace MazeRunners
 {
@@ -28,7 +29,7 @@ namespace MazeRunners
             new Jugador((0,0), 3, "Man2", new Teleport()),
             new Jugador((0,0), 3, "Man3", new AturdirTodos()),
             new Jugador((0,0), 3, "Man4", new DuplicarVelocidad()),
-            new Jugador((0,0), 3, "Man5", new Teleport())
+            new Jugador((0,0), 3, "Man5", new BreakWalls())
             };
             MazeGenerator generator = new MazeGenerator(ancho, altura);
             maze = generator.GenerateMaze();
@@ -125,7 +126,7 @@ namespace MazeRunners
                 switch (key)
                 {
                     case ConsoleKey.W:
-                        jugadores[current].Mover((-1,0), maze);
+                        jugadores[current].Mover((-1,0), maze);                   
                         Console.Clear();
                         DisplayMaze();
                         break;
@@ -145,26 +146,36 @@ namespace MazeRunners
                         DisplayMaze();
                         break;
                     case ConsoleKey.P:
-                        if (pcount < maxUses)
+                        if (pcount < maxUses && jugadores[current].Cooldown == 0)
                         {
                             jugadores[current].Habilidad.UseSkill(jugadores[current], jugadores, maze);
-                            if (jugadores[current].Speed == 6)
+                            if (jugadores[current].Speed != 3)
                             {
-                                velocidad = 6;
+                                velocidad = jugadores[current].Speed;
                             }
+                            jugadores[current].Cooldown = 3;
                             Console.Clear();
                             DisplayMaze();
                             pcount++;
                         }
+                        else if (jugadores[current].Cooldown > 0)
+                        {
+                            Console.WriteLine("Esta habilidad tiene cooldown");
+
+                        }
                         else
                         {
-                            continue;
+                            Console.WriteLine("Esta habilidad ya fue usadad");
                         }
                         break;
                     default:
-                        throw new ArgumentException("Por favor presiona WASD para moverte o P para activar el poder");
+                        Console.WriteLine("Por favor presiona WASD para moverte o P para activar el poder");
+                        break;
                 }
-
+                if (jugadores[current].Cooldown > 0)
+                {
+                    jugadores[current].Cooldown--;
+                }
                 if (jugadores[current].Posicion != temp)
                 {
                     count++;
@@ -173,8 +184,6 @@ namespace MazeRunners
                 {
                     count--;
                 }
-                ShowPlayer();
-                
                 if (CheckWin())
                 {
                     break;
@@ -215,7 +224,11 @@ namespace MazeRunners
 
         public bool CheckWin()
         {
-            return jugadores[current].Posicion == winner;
+            if (jugadores[current].Posicion == winner)
+            {
+                return true;
+            }
+            return false;
         }
 
     }

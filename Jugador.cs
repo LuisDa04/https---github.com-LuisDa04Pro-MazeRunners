@@ -8,6 +8,7 @@ namespace MazeRunners
         public int Speed {get; set;}
         public string Name {get; set;}
         public string Status {get; set;}
+        public int Cooldown {get; set;} = 3;
         public Habilidad Habilidad {get; set;}
 
         public Jugador((int,int) salida, int speed, string name, Habilidad habilidad)

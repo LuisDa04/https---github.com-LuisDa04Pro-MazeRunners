@@ -46,6 +46,7 @@ namespace MazeRunners
                     
                 }
             }
+            jugador.Cooldown = 3;
         }
     }
 
@@ -65,6 +66,7 @@ namespace MazeRunners
                         j.Status = "Stunned";
                     }
                 }
+                jugador.Cooldown = 3;
             }
         }
 
@@ -78,7 +80,9 @@ namespace MazeRunners
             {
                 AnsiConsole.Markup("[blue] Usando habilidad: Duplicar velocidad.[/]\n");
                 jugador.Speed*= 2;
+                jugador.Cooldown = 3;
             }
+            
         }
 
         public class Teleport : Habilidad
@@ -110,8 +114,50 @@ namespace MazeRunners
                 }
 
                 AnsiConsole.Markup($"[blue] Usando habilidad: Transportandose a la casilla {(newX,newY)}.[/]\n");
+                jugador.Cooldown = 3;
+            }
+        }
+
+        public class BreakWalls: Habilidad
+        {
+            public BreakWalls()
+            {
+                Name = "Romper Muro";
+            }
+            public override void UseSkill(Jugador jugador, List<Jugador> jugadores, Casilla[,] maze)
+            {
+                List<(int x,int y)> dir = new List<(int,int)> {(-1,0), (0,1), (1,0), (0,-1)};
+                var key = Console.ReadKey(true).Key;
+
+                switch (key)
+                {
+                    case ConsoleKey.W:
+                        RomperMuros(jugador, dir[0], maze);
+                        break;
+                    case ConsoleKey.S:
+                        RomperMuros(jugador, dir[2], maze);
+                        break;
+                    case ConsoleKey.A:
+                        RomperMuros(jugador, dir[3], maze);
+                        break;
+                    case ConsoleKey.D:
+                        RomperMuros(jugador, dir[2], maze);
+                        break;
+                }
+            }
+            public void RomperMuros(Jugador jugador, (int x, int y) direction, Casilla[,] maze)
+            {
+                int newX = jugador.Posicion.Item1 + direction.Item1;
+                int newY = jugador.Posicion.Item2 + direction.Item2;
+
+                if (IsBlock(newX,newY, maze) && maze[newX,newY] is Muro)
+                {
+                    maze[newX,newY] = new Camino((newX,newY));
+                    Console.WriteLine($"Rompiendo muro en la posición ({newX}, {newY})");
+                }
                 
             }
+            public bool IsBlock(int x, int y, Casilla[,] maze) => x > 0 && x < maze.GetLength(0) && y > 0 && y < maze.GetLength(1);
         }
         
 }
